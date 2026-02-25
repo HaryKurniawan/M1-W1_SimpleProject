@@ -6,13 +6,13 @@ import userRoutes from './routes/userRoutes';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
 
 // App routes
-app.use('/api/v1/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Simple Backend API running');

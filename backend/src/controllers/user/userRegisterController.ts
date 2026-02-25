@@ -11,6 +11,12 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(name)) {
+      res.status(400).json({ message: 'Nama hanya boleh terdiri dari huruf dan spasi!' });
+      return;
+    }
+
     const userExists = await prisma.user.findUnique({
       where: { email },
     });
