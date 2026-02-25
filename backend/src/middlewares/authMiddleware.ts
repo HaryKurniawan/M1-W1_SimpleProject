@@ -23,7 +23,7 @@ export const verifyApiKey = (req: Request, res: Response, next: NextFunction): v
 
 export const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Format: Bearer TOKEN
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     res.status(401).json({ message: 'Access token is required!' });
