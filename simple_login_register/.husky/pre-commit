@@ -1,2 +1,9 @@
+# Block ENV kecuali .env.example
+
+if git diff --cached --name-only | grep -E '\.env($|\.)' | grep -v '\.env\.example'; then
+  echo "ERROR: File .env tidak boleh di commit!"
+  exit 1
+fi
+
 cd "simple_login_register" || exit 1
 npx lint-staged
