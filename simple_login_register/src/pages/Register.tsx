@@ -19,6 +19,13 @@ const Register: React.FC = () => {
     setSuccess('');
     setLoading(true);
 
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(namaPengguna)) {
+      setError('Nama hanya boleh menggunakan huruf dan spasi.');
+      setLoading(false);
+      return;
+    }
+
     try {
       await authAPI.register(namaPengguna, email, kataSandi);
       setSuccess('Registrasi berhasil! Mengalihkan ke halaman login...');
@@ -37,7 +44,7 @@ const Register: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+      <div className="bg-white p-8 rounded-xl border border-gray-200 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Daftar / Register</h2>
         
         {error && (
@@ -58,7 +65,7 @@ const Register: React.FC = () => {
               type="text"
               value={namaPengguna}
               onChange={(e) => setNamaPengguna(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               placeholder="Masukkan nama Anda"
               required
             />
@@ -69,7 +76,7 @@ const Register: React.FC = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               placeholder="Masukkan email aktif"
               required
             />
@@ -80,7 +87,7 @@ const Register: React.FC = () => {
               type="password"
               value={kataSandi}
               onChange={(e) => setKataSandi(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               placeholder="Buat kata sandi"
               required
             />
@@ -88,7 +95,7 @@ const Register: React.FC = () => {
           <button 
             type="submit" 
             disabled={loading}
-            className="mt-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+            className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? 'Memproses...' : 'Daftar Akun'}
           </button>
@@ -96,7 +103,7 @@ const Register: React.FC = () => {
         
         <p className="mt-6 text-center text-sm text-gray-600">
           Sudah punya akun?{' '}
-          <Link to="/login" className="text-emerald-600 font-semibold hover:underline">
+          <Link to="/login" className="text-blue-600 font-semibold hover:underline">
             Masuk di sini
           </Link>
         </p>

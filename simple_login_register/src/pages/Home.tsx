@@ -42,11 +42,11 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center">
       {/* Navbar */}
-      <nav className="w-full bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10 px-6 py-4 flex justify-between items-center">
+      <nav className="w-full bg-white border-b border-gray-200 sticky top-0 z-10 px-6 py-4 flex justify-between items-center">
         <h2 className="text-xl font-bold text-gray-800 tracking-tight">App Dashboard</h2>
         <button 
           onClick={handleKeluar} 
-          className="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm shadow-sm"
+          className="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm"
         >
           Keluar / Logout
         </button>
@@ -55,11 +55,11 @@ const Home: React.FC = () => {
       {/* Konten Utama */}
       <main className="w-full max-w-3xl flex-1 flex flex-col items-center justify-center p-6">
         {error ? (
-          <div className="bg-red-100 text-red-600 p-4 rounded-xl text-center font-medium w-full shadow-sm">
+          <div className="bg-red-100 text-red-600 p-4 rounded-xl text-center font-medium w-full">
             {error}
           </div>
         ) : (
-          <div className="bg-white p-8 rounded-2xl shadow-md w-full border border-gray-100">
+          <div className="bg-white p-8 rounded-2xl w-full border border-gray-100">
             <h1 className="text-3xl font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">
               Selamat Datang, <span className="text-blue-600">{pengguna?.name}</span> ! 🎉
             </h1>

@@ -2,11 +2,13 @@ import axios from 'axios';
 import type { LoginResponse, RegisterResponse, ProfileResponse } from '../types/api';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_KEY = import.meta.env.VITE_API_KEY ;
 
 const apiService = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
+    'x-api-key': API_KEY,
   },
 });
 
