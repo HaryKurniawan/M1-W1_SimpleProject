@@ -1,3 +1,3 @@
 export { register } from './user/userRegisterController';
 export { login } from './user/userLoginController';
-export { getUser } from './user/userGetController';
+export { getUser, logoutUser as logout } from './user/userGetController';

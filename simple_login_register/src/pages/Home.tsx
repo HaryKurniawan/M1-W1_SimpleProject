@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import type { UserProfile } from '../types/api';
 
 const Home: React.FC = () => {
@@ -8,6 +9,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchProfil = async () => {
@@ -15,8 +17,27 @@ const Home: React.FC = () => {
         const response = await authAPI.getProfile();
         setPengguna(response.data.data);
       } catch {
+        /**
+         * =============================================================
+         * [OWASP A10 - Mishandling Exceptional Conditions]
+         * 
+         * Tampilkan pesan error yang generik dan user-friendly.
+         * Jangan menampilkan detail teknis (network error, status code)
+         * yang bisa membantu attacker memahami sistem.
+         * =============================================================
+         */
         setError('Gagal memuat profil. Sesi mungkin telah berakhir.');
-        localStorage.removeItem('authToken');
+        /**
+         * [OWASP A04 - Cryptographic Failures]
+         * 
+         * SEBELUMNYA: localStorage.removeItem('authToken')
+         * → Token di localStorage perlu dihapus manual ❌
+         * 
+         * SEKARANG: Cookie HttpOnly expired otomatis atau
+         * dihapus via endpoint logout. Kita hanya perlu
+         * update state bahwa user sudah tidak terautentikasi.
+         */
+        setIsAuthenticated(false);
         setTimeout(() => navigate('/login'), 2000);
       } finally {
         setLoading(false);
@@ -24,10 +45,38 @@ const Home: React.FC = () => {
     };
 
     fetchProfil();
-  }, [navigate]);
+  }, [navigate, setIsAuthenticated]);
 
-  const handleKeluar = () => {
-    localStorage.removeItem('authToken');
+  /**
+   * =============================================================
+   * [OWASP A04 - Cryptographic Failures]
+   * 
+   * Logout dilakukan via API call ke server untuk menghapus
+   * HttpOnly cookie. Cookie ini TIDAK BISA dihapus oleh
+   * JavaScript di browser.
+   * 
+   * SEBELUMNYA (TIDAK AMAN):
+   * localStorage.removeItem('authToken'); ❌
+   * → Hanya menghapus dari sisi client
+   * → Token masih valid dan bisa digunakan sampai expired
+   * 
+   * SEKARANG (AMAN):
+   * authAPI.logout() → Server menghapus cookie ✅
+   * → Cookie benar-benar dihapus
+   * =============================================================
+   */
+  const handleKeluar = async () => {
+    try {
+      await authAPI.logout();
+    } catch {
+      /**
+       * [OWASP A09 - Logging & Monitoring Failures]
+       * Jangan gunakan catch(e){} kosong!
+       * Meskipun error saat logout, tetap redirect ke login.
+       */
+      console.warn('Logout request gagal, tetapi sesi lokal akan dihapus.');
+    }
+    setIsAuthenticated(false);
     navigate('/login');
   };
 
@@ -56,11 +105,22 @@ const Home: React.FC = () => {
       <main className="w-full max-w-3xl flex-1 flex flex-col items-center justify-center p-6">
         {error ? (
           <div className="bg-red-100 text-red-600 p-4 rounded-xl text-center font-medium w-full">
+            {/**
+             * [OWASP A05 - Injection (XSS)]
+             * Menampilkan error menggunakan {error} (React auto-escaping).
+             * BUKAN dangerouslySetInnerHTML yang rentan XSS.
+             */}
             {error}
           </div>
         ) : (
           <div className="bg-white p-8 rounded-2xl w-full border border-gray-100">
             <h1 className="text-3xl font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">
+              {/**
+               * [OWASP A05 - Injection (XSS)]
+               * Data user (pengguna?.name) ditampilkan dengan React
+               * auto-escaping. Jika nama mengandung karakter HTML/script,
+               * React akan menampilkannya sebagai teks biasa, BUKAN dieksekusi.
+               */}
               Selamat Datang, <span className="text-blue-600">{pengguna?.name}</span> ! 🎉
             </h1>
             

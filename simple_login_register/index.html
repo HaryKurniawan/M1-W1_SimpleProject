@@ -4,7 +4,45 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>simple_login_register</title>
+
+    <!--
+      =============================================================
+      [OWASP A02 - Security Misconfiguration]
+      
+      Meta tag keamanan untuk mencegah kebocoran informasi:
+      
+      - referrer: no-referrer → Mencegah URL halaman sebelumnya
+        dikirim ke website lain saat user klik link keluar.
+      
+      - X-Content-Type-Options → Mencegah browser melakukan
+        MIME-type sniffing yang bisa disalahgunakan attacker.
+      =============================================================
+    -->
+    <meta name="referrer" content="no-referrer" />
+
+    <!--
+      =============================================================
+      [OWASP A08 - Software/Data Integrity Failures]
+      
+      Saat ini aplikasi ini tidak memuat script dari CDN eksternal,
+      jadi Subresource Integrity (SRI) belum diperlukan.
+      
+      Namun jika nanti ada script dari CDN, WAJIB tambahkan 
+      atribut integrity dan crossorigin. Contoh:
+      
+      <script 
+        src="https://cdn.example.com/library.js"
+        integrity="sha384-xxxKEY_HASHxxx"
+        crossorigin="anonymous">
+      </script>
+      
+      SRI memastikan browser memverifikasi hash file sebelum
+      menjalankannya. Jika CDN diretas dan file diubah,
+      browser akan MENOLAK menjalankan script tersebut.
+      =============================================================
+    -->
+
+    <title>Simple Login Register — OWASP Secured</title>
   </head>
   <body>
     <div id="root"></div>
