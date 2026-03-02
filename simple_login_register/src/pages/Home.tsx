@@ -35,7 +35,7 @@ const Home: React.FC = () => {
          * 
          * SEKARANG: Cookie HttpOnly expired otomatis atau
          * dihapus via endpoint logout. Kita hanya perlu
-         * update state bahwa user sudah tidak terautentikasi.
+         * updat state bahwa user sudah tidak terautentikasi.
          */
         setIsAuthenticated(false);
         setTimeout(() => navigate('/login'), 2000);
