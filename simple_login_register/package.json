@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "cd .. && husky simple_login_register/.husky"
+    "prepare": "cd .. && husky simple_login_register/.husky",
+    "commit": "node .husky/interactive-commit.cjs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

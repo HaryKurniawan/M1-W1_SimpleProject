@@ -31,7 +31,7 @@ if ! echo "$commit_msg" | grep -qE "$pattern"; then
   echo "  build    - Build system"
   echo "  revert   - Revert commit"
   echo ""
-  echo "💡 Gunakan ./commit.sh untuk commit interaktif!"
+  echo "💡 Gunakan 'npm run commit' untuk commit interaktif!"
   echo ""
   exit 1
 fi
