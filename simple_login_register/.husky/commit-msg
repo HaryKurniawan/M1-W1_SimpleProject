@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Validasi format commit message
+# Format: type(scope): description  atau  type: description
+
+commit_msg=$(cat "$1")
+
+# Regex pattern untuk conventional commits
+pattern="^(feat|fix|update|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo ""
+  echo "❌ ERROR: Format commit message tidak valid!"
+  echo ""
+  echo "Format yang benar: type(scope): deskripsi"
+  echo "Contoh: feat(auth): tambah fitur login"
+  echo "        fix(api): perbaiki validasi token"
+  echo "        update: update dependencies"
+  echo ""
+  echo "📋 Tipe yang valid:"
+  echo "  feat     - Fitur baru"
+  echo "  fix      - Perbaikan bug"
+  echo "  update   - Update/perubahan"
+  echo "  docs     - Dokumentasi"
+  echo "  style    - Formatting (tanpa perubahan kode)"
+  echo "  refactor - Refactoring kode"
+  echo "  test     - Menambah test"
+  echo "  chore    - Maintenance"
+  echo "  perf     - Perbaikan performa"
+  echo "  ci       - CI/CD changes"
+  echo "  build    - Build system"
+  echo "  revert   - Revert commit"
+  echo ""
+  echo "💡 Gunakan ./commit.sh untuk commit interaktif!"
+  echo ""
+  exit 1
+fi

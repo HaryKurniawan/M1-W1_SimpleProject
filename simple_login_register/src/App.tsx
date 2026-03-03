@@ -24,9 +24,9 @@ import { AuthProvider, useAuth } from './context/AuthContext';
  */
 
 /**
- * [OWASP A01 - Broken Access Control]
+ * [OWASP A01 - Broken Access Controll]
  * 
- * ProtectedRoute hanya berfungsi sebagai UX guard.
+ * ProtectedRoute hanya berfungsi sebagai UX guard
  * Keamanan sesungguhnya ada di backend middleware (verifyToken).
  */
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
